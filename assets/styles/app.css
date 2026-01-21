@@ -1,3 +1,27 @@
 body {
-    background-color: skyblue;
+    background-color: lightgrey;
+}
+
+.background-white {
+    background-color: white;
+}
+
+.sticky {
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+}
+
+.border-bottom-dark {
+    border-bottom: 1px solid black;
+}
+
+.decoration-none {
+    color: black;
+    text-decoration: none;
+}
+
+.decoration-hov:hover, .decoration-hov.active {
+    color:blue;
+    text-decoration: underline;
 }
