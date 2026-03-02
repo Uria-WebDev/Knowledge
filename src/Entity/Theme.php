@@ -24,4 +24,46 @@ class Theme
     {
         $this->cursus = new ArrayCollection();
     }
+
+    // ID
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    // NAME
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    // CURSUS
+    /**
+     * @return Collection<int, Cursus>
+     */
+    public function getCursus(): Collection
+    {
+        return $this->cursus;
+    }
+
+    public function addCursus(Cursus $cursus): self
+    {
+        if (!$this->cursus->contains($cursus)) {
+            $this->cursus->add($cursus);
+        }
+
+        return $this;
+    }
+
+    public function removeCursus(Cursus $cursus): self
+    {
+        $this->cursus->removeElement($cursus);
+        return $this;
+    }
 }
