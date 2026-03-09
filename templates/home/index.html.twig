@@ -9,7 +9,8 @@
     <div class="row">
     {% for theme in themes %}
         <div class="col-md-6 mb-3">
-            <a href="#" class="card text-center padding-top-10 padding-bottom-10 background-darkblue background-blue-hov decoration-none">
+            <a href="{{ path('theme_cursus', {id: theme.id}) }}"
+            class="card text-center padding-top-10 padding-bottom-10 background-darkblue background-blue-hov decoration-none">
                 <div class="card-body">
                     <h5 class="card-title">{{ theme.name }}</h5>
                 </div>
