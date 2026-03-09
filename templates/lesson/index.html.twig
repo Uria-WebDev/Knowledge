@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Knowledge - {{ theme.name }}{% endblock %}
+{% block title %}Knowledge - {{ cursus.name }}{% endblock %}
 
-{% block cursus %}
+{% block lesson %}
 <div class="container">
 
     <h1 class="margin-top-3 margin-bottom-3">
-        Nos Cursus pour le Thème : {{ theme.name }}
+        Nos Leçons pour le Cursus : {{ cursus.name }}
     </h1>
 
     <div class="row">
-        {% for cursus in cursus %}
+        {% for lesson in lesson %}
         <div class="col-md-6 mb-3">
-            <a href="{{ path('cursus_lesson', {id: cursus.id}) }}"
+            <a href="{{ path('lesson_read', {id: lesson.id}) }}"
             class="card text-center padding-top-10 padding-bottom-10 background-darkblue background-blue-hov decoration-none">
                 <div class="card-body text-center">
-                    <h5>{{ cursus.name }}</h5>
-                    <p>{{ cursus.price }} €</p>
+                    <h5>{{ lesson.name }}</h5>
+                    <p>{{ lesson.price }} €</p>
                 </div>
             </a>
         </div>
         {% else %}
-        <p>Aucun cursus disponible pour ce thème.</p>
+        <p>Aucune leçon disponible pour ce cursus.</p>
         {% endfor %}
     </div>
 
