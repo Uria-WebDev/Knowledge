@@ -1,9 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Knowledge - Inscription{% endblock %}
+{% block title %}Knowledge - S'inscrire{% endblock %}
 
 {% block register %}
-<div class="container">
-    <h1>Inscription :</h1>
+
+<!-- PAGE D'INSCRIPTION -->
+<div class="row">
+    <div class="col-4"></div>
+
+    {{ form_start(registrationForm, {
+        'attr': {
+            'class': 'col-4 margin-top-10 margin-bottom-10 padding-top-20 padding-bottom-20 background-white'
+        }
+    }) }}
+
+        <p class="padding-bottom-20 border-bottom-blue">S'inscrire</p>
+
+        <!-- Nom d'utilisateur -->
+        <div class="margin-top-20">
+            {{ form_label(registrationForm.username, 'Nom d\'utilisateur :') }}
+            {{ form_widget(registrationForm.username) }}
+            {{ form_errors(registrationForm.username) }}
+        </div>
+
+        <!-- Adresse mail -->
+        <div class="margin-top-20">
+            {{ form_label(registrationForm.email, 'Adresse mail :') }}
+            {{ form_widget(registrationForm.email) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="margin-top-50">
+            {{ form_label(registrationForm.plainPassword, 'Mot de passe :') }}
+            {{ form_widget(registrationForm.plainPassword) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+
+        <!-- Envoi du formulaire -->
+        <div class="margin-top-20 padding-bottom-20 border-bottom-blue text-center">
+            <button type="submit" class="btn btn-primary">Créer un compte</button>
+        </div>
+
+        <!-- Redirection vers la page de connection -->
+        <div class="margin-top-20">
+            <p class="margin-bottom-0">Déjà inscrit ?</p>
+            <div class="text-center">
+                <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+            </div>
+        </div>
+
+    {{ form_end(registrationForm) }}
+
+    <div class="col-4"></div>
 </div>
 {% endblock %}
