@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
 
             // Envoi du mail de confirmation
             $email = (new Email())
-                ->from('no-reply@stubborn.fr')
+                ->from('no-reply@knowledge.fr')
                 ->to($user->getEmail())
                 ->subject('Confirmation de votre inscription')
                 ->html("<p>Bonjour {$user->getUsername()},</p><p>Veuillez confirmer votre inscription en cliquant sur le lien ci-dessous :</p><p><a href='{$confirmationUrl}'>Confirmer mon inscription</a></p>");

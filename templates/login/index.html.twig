@@ -1,9 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Knowledge - Connection{% endblock %}
+{% block title %}Stubborn - Se connecter{% endblock %}
 
 {% block login %}
-<div class="container">
-    <h1>Connection :</h1>
+
+<!-- PAGE DE CONNECTION -->
+
+<div class="row">
+    <div class="col-4"></div>
+
+    <form method="post" action="{{ path('app_login') }}" class="col-4 border-dark margin-top-10 margin-bottom-10 padding-top-20 padding-bottom-20 background-white">
+
+        <p class="padding-bottom-20 border-bottom-blue">Se connecter</p>
+
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <!-- Nom d'utilisateur -->
+        <div class="margin-top-20">
+            <label for="inputUsername">Nom d'utilisateur</label><br>
+            <input type="text" name="_username" id="inputUsername" value="{{ last_username }}" class="form-control" autocomplete="username" required autofocus>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="margin-top-20">
+            <label for="inputPassword">Mot de passe</label><br>
+            <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        </div>
+
+        <!-- Token (invisible) -->
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <!-- Récupération du mot de passe (inactif) -->
+        <div class="margin-top-20 padding-bottom-20 border-bottom-blue text-center">
+            <button type="submit" class="btn btn-primary">Se Connecter</button><br>
+            <a href="#"><small>Mot de passe oublié ?</small></a>
+        </div>
+
+        <!-- Redirection vers la page d'inscription -->
+        <div class="margin-top-20">
+            <p class="margin-bottom-0">Pas encore inscrit ?</p><br>
+            <div class="text-center">
+                <a href="{{ path('app_register') }}" class="btn btn-primary">Créer un compte</a>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="col-4"></div>
 </div>
+
 {% endblock %}
