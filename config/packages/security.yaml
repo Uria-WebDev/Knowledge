@@ -35,6 +35,7 @@ security:
         - { path: ^/theme, roles: ROLE_USER }
         - { path: ^/cursus, roles: ROLE_USER }
         - { path: ^/lesson, roles: ROLE_USER }
+        - { path: ^/cart, roles: ROLE_USER }
 
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }

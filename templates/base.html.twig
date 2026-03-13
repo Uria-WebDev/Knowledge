@@ -41,6 +41,11 @@
                                 Accueil
                             </a>
 
+                            <a href="{{ path('app_cart') }}" class="col-md decoration-none decoration-hov
+                            {{ app.request.attributes.get('_route') == 'app_cart' ? 'active' : '' }}">
+                                Panier
+                            </a>
+
                             <form id="logout-form" action="{{ path('app_logout') }}" method="post" style="display: none;">
                                 <input type="hidden" name="_token" value="{{ csrf_token('logout') }}">
                             </form>
@@ -82,6 +87,8 @@
         {% block register %}{% endblock %} <!-- Page d'inscription -->
         {% block admin %}{% endblock %} <!-- Page Back Office -->
         {% block adminform %}{% endblock %} <!-- Page d'ajout de produit -->
+
+        {% block cart %}{% endblock %} <!-- Page du panier -->
         {% block paymentSuccess %}{% endblock %} <!-- Page de confirmation de payement -->
         {% block paymentCancel %}{% endblock %} <!-- Page d'annulation de payement -->
       </main>
