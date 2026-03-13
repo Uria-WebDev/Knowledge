@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Knowledge - Panier{% endblock %}
+
+{% block cart %}
+
+    <!-- PAGE DU PANIER -->
+
+    <!-- Produits du panier -->
+    <div class="margin-top-10">
+        {% if cart.items is empty %}
+            <p>Votre panier est vide.</p>
+        {% else %}
+
+            {% for item in cart.items %}
+                <div class="row background-white border-dark p-3 mb-3 align-items-center">
+
+                    <div class="col-3">
+                        <img src="{{ asset('img/Product/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="img-fluid">
+                    </div>
+
+                    <div class="col-3">
+                        <strong>
+                            Nom</br>
+                            {{ item.product.name }}
+                        </strong>
+                    </div>
+
+                    <div class="col-3">
+                        <strong>
+                            Prix</br>
+                            {{ item.product.price }} €
+                        </strong>
+                    </div>
+
+                    <div class="col-12 text-end">
+                        <a href="{{ path('cart_remove', {'key': item.product.id }) }}"
+                        class="btn btn-danger">
+                            RETIRER DU PANIER
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        {% endif %}
+    </div>
+
+    <div class="row margin-bottom-10">
+        <div class="col-7"></div>
+        <div class="col-5">
+
+            <!-- Redirection vers la page de payement -->
+            <div class="row gap-4">
+                <strong class="col border-dark text-center padding-top-10 padding-bottom-10 margin-bottom-0">TOTAL : {{ cart.total }} €</strong>
+                <a href="{{ path('payment_checkout') }}" class="col btn btn-primary padding-top-10 padding-bottom-10">
+                    FINALISER MA COMMANDE
+                </a>
+            </div>
+
+            <!-- Redirection vers la page de la boutique -->
+            <div class="row gap-4 margin-top-20">
+                <div class="col"></div>
+                <a href="{{ path('app_home') }}" class="col btn btn-primary padding-top-10 padding-bottom-10">CONTINUER MES ACHATS</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -26,8 +26,12 @@ class Cursus
     #[ORM\ManyToMany(targetEntity: Lesson::class, inversedBy: 'cursus')]
     private Collection $lessons;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'cursusBought')]
+    private Collection $users;
+
     public function __construct()
     {
+        $this->users = new ArrayCollection();
         $this->themes = new ArrayCollection();
         $this->lessons = new ArrayCollection();
     }
@@ -113,6 +117,34 @@ class Cursus
     {
         if ($this->lessons->removeElement($lesson)) {
             $lesson->removeCursus($this);
+        }
+
+        return $this;
+    }
+
+    // USERS
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addCursusBought($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeCursusBought($this);
         }
 
         return $this;

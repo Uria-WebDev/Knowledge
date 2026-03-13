@@ -44,9 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'lesson_bought')]
     private Collection $lessonsBought;
 
+    #[ORM\ManyToMany(targetEntity: Cursus::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'cursus_bought')]
+    private Collection $cursusBought;
+
     public function __construct()
     {
         $this->lessonsBought = new ArrayCollection();
+        $this->cursusBought = new ArrayCollection();
     }
 
     // --------------------
@@ -157,6 +162,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeLessonBought(Lesson $lesson): static
     {
         $this->lessonsBought->removeElement($lesson);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cursus>
+     */
+    public function getCursusBought(): Collection
+    {
+        return $this->cursusBought;
+    }
+
+    public function addCursusBought(Cursus $cursus): self
+    {
+        if (!$this->cursusBought->contains($cursus)) {
+            $this->cursusBought->add($cursus);
+            $cursus->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCursusBought(Cursus $cursus): self
+    {
+        if ($this->cursusBought->removeElement($cursus)) {
+            $cursus->removeUser($this);
+        }
+
         return $this;
     }
 
