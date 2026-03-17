@@ -15,14 +15,21 @@ class CartController extends AbstractController
     public function add(Request $request, CartService $cartService): Response
     {
         $cursusId = $request->request->get('cursus_id');
+        $lessonId = $request->request->get('lesson_id');
 
-        $cartService->add($cursusId);
+        if ($cursusId) {
+            $cartService->add((int) $cursusId);
+        } elseif ($lessonId) {
+            $cartService->addLesson((int) $lessonId);
+        } else {
+            throw $this->createNotFoundException('Aucun produit fourni');
+        }
 
         return $this->redirectToRoute('app_cart');
     }
 
     // Route de suppression d'un produit du panier
-    #[Route('/cart/remove/{key}', name: 'cart_remove')]
+    #[Route('/cart/remove/{key}', name: 'cart_remove', requirements: ['key' => '.+'])]
     public function remove(string $key, CartService $cartService): Response
     {
         $cartService->remove($key);
