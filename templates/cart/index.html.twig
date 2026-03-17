@@ -18,19 +18,19 @@
                     <div class="col-3">
                         <strong>
                             Nom</br>
-                            {{ item.cursus.name }}
+                            {{ item.item.name }}
                         </strong>
                     </div>
 
                     <div class="col-3">
                         <strong>
                             Prix</br>
-                            {{ item.cursus.price }} €
+                            {{ item.item.price }} €
                         </strong>
                     </div>
 
                     <div class="col-12 text-end">
-                        <a href="{{ path('cart_remove', {'key': item.cursus.id }) }}"
+                        <a href="{{ path('cart_remove', {'key': item.key }) }}"
                         class="btn background-blue background-red background-darkgrey-hov">
                             RETIRER DU PANIER
                         </a>
