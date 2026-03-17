@@ -3,34 +3,34 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Repository\ProductRepository;
+use App\Repository\CursusRepository;
 
 class CartService
 {
     private $session;
-    private $productRepository;
+    private $cursusRepository;
 
-    public function __construct(RequestStack $requestStack, ProductRepository $productRepository)
+    public function __construct(RequestStack $requestStack, CursusRepository $cursusRepository)
     {
         $this->session = $requestStack->getSession();
-        $this->productRepository = $productRepository;
+        $this->cursusRepository = $cursusRepository;
     }
 
-    // Ajout d'un produit au panier
-    public function add(int $productId)
+    // Ajout d'un cursus au panier
+    public function add(int $cursusId)
     {
         $cart = $this->session->get('cart', []);
 
-        $key = $productId;
+        $key = $cursusId;
 
         $cart[$key] = [
-            'product_id' => $productId,
+            'cursus_id' => $cursusId,
         ];
 
         $this->session->set('cart', $cart);
     }
 
-    // Recuperation des produits du panier
+    // Recuperation des cursus du panier
     public function getCart()
     {
         $cart = $this->session->get('cart', []);
@@ -39,20 +39,20 @@ class CartService
 
         foreach ($cart as $item) {
 
-            $product = $this->productRepository->find($item['product_id']);
+            $cursus = $this->cursusRepository->find($item['cursus_id']);
 
             $items[] = [
-                'product' => $product,
-                'price' => $product->getPrice(),
+                'cursus' => $cursus,
+                'price' => $cursus->getPrice(),
             ];
 
-            $total += $product->getPrice();
+            $total += $cursus->getPrice();
         }
 
         return ['items' => $items, 'total' => $total];
     }
 
-    // Suppression d'un produit du panier
+    // Suppression d'un cursus du panier
     public function remove(string $key)
     {
         $cart = $this->session->get('cart', []);

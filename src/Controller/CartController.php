@@ -14,9 +14,9 @@ class CartController extends AbstractController
     #[Route('/cart/add', name: 'cart_add', methods: ['POST'])]
     public function add(Request $request, CartService $cartService): Response
     {
-        $productId = $request->request->get('product_id');
+        $cursusId = $request->request->get('cursus_id');
 
-        $cartService->add($productId);
+        $cartService->add($cursusId);
 
         return $this->redirectToRoute('app_cart');
     }
