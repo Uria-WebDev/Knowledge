@@ -10,8 +10,20 @@ body {
     background-color: #00497c;
 }
 
-.background-blue-hov:hover {
+.background-blue, .background-blue-hov:hover {
     background-color: #0074c7;
+}
+
+.background-green-hov:hover {
+    background-color: #82b864;
+}
+
+.background-red {
+    background-color: #cd2c2e;
+}
+
+.background-darkgrey-hov:hover {
+    background-color: #384050;
 }
 
 .sticky {
@@ -40,6 +52,10 @@ body {
 
 .text-center {
     text-align: center;
+}
+
+.text-right {
+    text-align: right;
 }
 
 .margin-top-3 {
