@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CartController extends AbstractController
 {
@@ -50,5 +53,52 @@ class CartController extends AbstractController
         return $this->render('cart/index.html.twig', [
             'cart' => $cartService->getCart()
         ]);
+    }
+
+    // Route de vérification de payement
+    #[Route('/checkout', name: 'app_checkout')]
+    public function checkout(CartService $cart): RedirectResponse
+    {
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+
+        $cartData = $cart->getCart();
+        $lineItems = [];
+
+        foreach ($cartData['items'] as $item) {
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => $item['item']->getName(),
+                    ],
+                    'unit_amount' => $item['item']->getPrice() * 100,
+                ],
+                'quantity' => 1,
+            ];
+        }
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+            'success_url' => 'http://localhost:8000/success',
+            'cancel_url' => 'http://localhost:8000/cancel',
+        ]);
+
+        return new RedirectResponse($session->url);
+    }
+
+    // Route de validation de payement
+    #[Route('/success', name: 'payment_success')]
+    public function success()
+    {
+        return $this->render('payment/success.html.twig');
+    }
+
+    // Route d'annulation de payement
+    #[Route('/cancel', name: 'payment_cancel')]
+    public function cancel()
+    {
+        return $this->render('payment/cancel.html.twig');
     }
 }
