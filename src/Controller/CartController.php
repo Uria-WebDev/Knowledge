@@ -17,19 +17,27 @@ class CartController extends AbstractController
         $cursusId = $request->request->get('cursus_id');
         $lessonId = $request->request->get('lesson_id');
 
+        $error = null;
+
         if ($cursusId) {
-            $cartService->add((int) $cursusId);
+            $error = $cartService->add((int) $cursusId);
         } elseif ($lessonId) {
-            $cartService->addLesson((int) $lessonId);
+            $error = $cartService->addLesson((int) $lessonId);
         } else {
             throw $this->createNotFoundException('Aucun produit fourni');
+        }
+
+        if ($error) {
+            $this->addFlash('error', $error);
+        } else {
+            $this->addFlash('success', 'Produit ajouté au panier');
         }
 
         return $this->redirectToRoute('app_cart');
     }
 
     // Route de suppression d'un produit du panier
-    #[Route('/cart/remove/{key}', name: 'cart_remove', requirements: ['key' => '.+'])]
+    #[Route('/cart/remove/{key}', name: 'cart_remove', methods: ['POST'])]
     public function remove(string $key, CartService $cartService): Response
     {
         $cartService->remove($key);

@@ -19,6 +19,7 @@
   </head>
   <body>
     {% block body %}
+
       <!-- HEADER -->
       <header class="border-bottom-dark background-white sticky">
           <div class="container">
@@ -75,6 +76,14 @@
               </div>
           </div>
       </header>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="container margin-top-3 alert alert-{{ label == 'error' ? 'danger' : label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
 
       <main class="container margin-top-20">
         {% block home %}{% endblock %} <!-- Page d'accueil -->

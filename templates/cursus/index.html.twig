@@ -12,7 +12,7 @@
     <div class="row">
         {% for cursus in cursus %}
         <div class="col-md-6 mb-3">
-            <div class="card text-center padding-top-10 padding-bottom-10 background-blue decoration-none">
+            <div class="card text-center padding-top-10 padding-bottom-10 background-darkblue background-blue-hov decoration-none">
                 <div class="card-body text-center">
                     <h5>{{ cursus.name }}</h5>
                     <p>{{ cursus.price }} €</p>
@@ -23,7 +23,6 @@
 
                     <form action="{{ path('cart_add') }}" method="POST">
                         <input type="hidden" name="cursus_id" value="{{ cursus.id }}">
-                        <input type="hidden" name="size" id="selected-size">
 
                         <button type="submit" class="btn background-darkblue background-blue-hov mt-3 width-100">
                             Ajouter au panier
