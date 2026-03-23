@@ -30,10 +30,11 @@
                     </div>
 
                     <div class="col-12 text-end">
-                        <a href="{{ path('cart_remove', {'key': item.key }) }}"
-                        class="btn background-blue background-red background-darkgrey-hov">
-                            RETIRER DU PANIER
-                        </a>
+                        <form method="post" action="{{ path('cart_remove', {'key': item.key }) }}">
+                            <button class="btn background-red background-darkgrey-hov">
+                                RETIRER DU PANIER
+                            </button>
+                        </form>
                     </div>
 
                 </div>

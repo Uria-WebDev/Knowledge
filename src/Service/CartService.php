@@ -20,9 +20,24 @@ class CartService
     }
 
     // Ajout d'un cursus au panier
-    public function add(int $cursusId)
+    public function add(int $cursusId): ?string
     {
         $cart = $this->session->get('cart', []);
+
+        // Vérifier si une leçon de ce cursus est déjà dans le panier
+        foreach ($cart as $item) {
+            if ($item['type'] === 'lesson') {
+                $lesson = $this->lessonRepository->find($item['id']);
+
+                if ($lesson) {
+                    foreach ($lesson->getCursus() as $cursus) {
+                        if ($cursus->getId() === $cursusId) {
+                            return "Une leçon provennant de ce cursus se trouve déjà dans votre panier.";
+                        }
+                    }
+                }
+            }
+        }
 
         $key = 'cursus_' . $cursusId;
 
@@ -32,12 +47,29 @@ class CartService
         ];
 
         $this->session->set('cart', $cart);
+
+        return null; // succès
     }
 
     // Ajout d'une leçon au panier
-    public function addLesson(int $lessonId)
+    public function addLesson(int $lessonId): ?string
     {
         $cart = $this->session->get('cart', []);
+
+        $lesson = $this->lessonRepository->find($lessonId);
+
+        if (!$lesson) {
+            return "Leçon introuvable.";
+        }
+
+        // Vérifier si le cursus de cette leçon est déjà dans le panier
+        foreach ($lesson->getCursus() as $cursus) {
+            foreach ($cart as $item) {
+                if ($item['type'] === 'cursus' && $item['id'] === $cursus->getId()) {
+                    return "Le cursus correspondant à cette leçon se trouve déjà dans votre panier.";
+                }
+            }
+        }
 
         $key = 'lesson_' . $lessonId;
 
@@ -47,6 +79,8 @@ class CartService
         ];
 
         $this->session->set('cart', $cart);
+
+        return null;
     }
 
     // Recuperation des produits du panier
