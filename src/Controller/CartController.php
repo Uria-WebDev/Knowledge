@@ -10,6 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CursusRepository;
+use App\Repository\LessonRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class CartController extends AbstractController
 {
@@ -90,8 +94,46 @@ class CartController extends AbstractController
 
     // Route de validation de payement
     #[Route('/success', name: 'payment_success')]
-    public function success()
-    {
+    public function success(
+        CartService $cartService,
+        EntityManagerInterface $em,
+        Security $security,
+        CursusRepository $cursusRepository,
+        LessonRepository $lessonRepository
+    ): Response {
+        $user = $security->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $cart = $cartService->getCart();
+
+        foreach ($cart['items'] as $item) {
+
+            if ($item['type'] === 'cursus') {
+                $cursus = $cursusRepository->find($item['item']->getId());
+
+                if ($cursus) {
+                    $user->addCursusBought($cursus);
+                }
+            }
+
+            if ($item['type'] === 'lesson') {
+                $lesson = $lessonRepository->find($item['item']->getId());
+
+                if ($lesson) {
+                    $user->addLessonBought($lesson);
+                }
+            }
+        }
+
+        $em->persist($user);
+        $em->flush();
+
+        // vider le panier
+        $cartService->clear();
+
         return $this->render('payment/success.html.twig');
     }
 
