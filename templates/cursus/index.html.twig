@@ -17,14 +17,14 @@
                     <h5>{{ cursus.name }}</h5>
                     <p>{{ cursus.price }} €</p>
                     <a href="{{ path('cursus_lesson', {id: cursus.id}) }}"
-                        class="btn background-darkblue background-blue-hov mt-3 width-100">
+                        class="btn background-darkblue background-green-hov mt-3 width-100">
                         Voir
                     </a>
 
                     <form action="{{ path('cart_add') }}" method="POST">
                         <input type="hidden" name="cursus_id" value="{{ cursus.id }}">
 
-                        <button type="submit" class="btn background-darkblue background-blue-hov mt-3 width-100">
+                        <button type="submit" class="btn background-darkblue background-green-hov mt-3 width-100">
                             Ajouter au panier
                         </button>
                     </form>
