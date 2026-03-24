@@ -5,18 +5,21 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\CursusRepository;
 use App\Repository\LessonRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class CartService
 {
     private $session;
     private $cursusRepository;
     private $lessonRepository;
+    private $security;
 
-    public function __construct(RequestStack $requestStack, CursusRepository $cursusRepository, LessonRepository $lessonRepository)
+    public function __construct(RequestStack $requestStack, CursusRepository $cursusRepository, LessonRepository $lessonRepository, Security $security)
     {
         $this->session = $requestStack->getSession();
         $this->cursusRepository = $cursusRepository;
         $this->lessonRepository = $lessonRepository;
+        $this->security = $security;
     }
 
     // Ajout d'un cursus au panier
@@ -34,6 +37,30 @@ class CartService
                         if ($cursus->getId() === $cursusId) {
                             return "Une leçon provennant de ce cursus se trouve déjà dans votre panier.";
                         }
+                    }
+                }
+            }
+        }
+
+        $user = $this->security->getUser();
+
+        // Vérifier si le cursus est déjà acheté par l'utilisateur
+        if ($user) {
+            foreach ($user->getCursusBought() as $cursusBought) {
+                if ($cursusBought->getId() === $cursusId) {
+                    return "Vous avez déjà acheté ce cursus.";
+                }
+            }
+        }
+
+        $cursus = $this->cursusRepository->find($cursusId);
+
+        // Vérifier si une leçon du cursus est déjà achetée par l'utilisateur
+        if ($user && $cursus) {
+            foreach ($cursus->getLessons() as $lesson) {
+                foreach ($user->getLessonsBought() as $boughtLesson) {
+                    if ($lesson->getId() === $boughtLesson->getId()) {
+                        return "Vous avez déjà acheté une leçon de ce cursus.";
                     }
                 }
             }
@@ -67,6 +94,26 @@ class CartService
             foreach ($cart as $item) {
                 if ($item['type'] === 'cursus' && $item['id'] === $cursus->getId()) {
                     return "Le cursus correspondant à cette leçon se trouve déjà dans votre panier.";
+                }
+            }
+        }
+
+        $user = $this->security->getUser();
+
+        // Vérifier si la leçon est déjà acheter par l'utilisateur
+        if ($user) {
+            foreach ($user->getLessonsBought() as $lessonBought) {
+                if ($lessonBought->getId() === $lessonId) {
+                    return "Vous avez déjà acheté cette leçon.";
+                }
+            }
+        }
+
+        // Vérifier si le cursus de cette leçon est déjà acheté par l'utilisateur
+        foreach ($lesson->getCursus() as $cursus) {
+            foreach ($user->getCursusBought() as $boughtCursus) {
+                if ($boughtCursus->getId() === $cursus->getId()) {
+                    return "Vous avez déjà acheté le cursus contenant cette leçon.";
                 }
             }
         }
@@ -123,5 +170,11 @@ class CartService
         }
 
         $this->session->set('cart', $cart);
+    }
+
+    // Vider le panier
+    public function clear()
+    {
+        $this->session->remove('cart');
     }
 }
