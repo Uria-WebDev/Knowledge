@@ -11,5 +11,12 @@
 
     <p>{{ lesson.text }}</p>
 
+    <form method="post" action="{{ path('lesson_validate', {id: lesson.id}) }}">
+        <input type="checkbox"
+            onchange="this.form.submit()"
+            {% if userLesson and userLesson.isValidated %}checked{% endif %}>
+        Valider la leçon
+    </form>
+
 </div>
 {% endblock %}

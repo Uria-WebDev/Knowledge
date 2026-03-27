@@ -16,6 +16,18 @@ class LessonRepository extends ServiceEntityRepository
         parent::__construct($registry, Lesson::class);
     }
 
+    public function countLessonsByTheme(Theme $theme): int
+    {
+        return (int) $this->createQueryBuilder('l')
+            ->select('COUNT(l.id)')
+            ->join('l.cursus', 'c')
+            ->join('c.themes', 't')
+            ->where('t = :theme')
+            ->setParameter('theme', $theme)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     //    /**
     //     * @return Lesson[] Returns an array of Lesson objects
     //     */

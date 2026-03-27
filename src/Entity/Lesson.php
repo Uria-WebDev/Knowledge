@@ -29,6 +29,9 @@ class Lesson
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $price = null;
 
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: UserLesson::class)]
+    private Collection $userLessons;
+
     public function __construct()
     {
         $this->cursus = new ArrayCollection();
