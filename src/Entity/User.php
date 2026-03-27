@@ -54,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cursusBought = new ArrayCollection();
     }
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserLesson::class)]
+    private Collection $userLessons;
+
     // --------------------
     // Getters / Setters
     // --------------------
