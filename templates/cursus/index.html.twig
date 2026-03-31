@@ -9,6 +9,14 @@
         Nos Cursus pour le Thème : {{ theme.name }}
     </h1>
 
+    {% if isThemeValidated %}
+        <p>
+            Félicitation, vous avez obtenu la certification
+            <span class="text-success"> Knowledge Learning </span>
+            pour ce thème ✅
+        </p>
+    {% endif %}
+
     <div class="row">
         {% for cursus in cursus %}
         <div class="col-md-6 mb-3">
