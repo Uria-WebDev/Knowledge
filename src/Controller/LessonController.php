@@ -13,12 +13,25 @@ use Symfony\Component\Routing\Attribute\Route;
 class LessonController extends AbstractController
 {
     #[Route('/cursus/{id}', name: 'cursus_lesson')]
-    public function index(Cursus $cursus): Response
-    {
+    public function index(
+        Cursus $cursus,
+        EntityManagerInterface $em
+    ): Response {
+        $user = $this->getUser();
+
+        $validatedLessons = 0;
+        $totalLessons = count($cursus->getLessons());
+
+        if ($user) {
+            $validatedLessons = $em->getRepository(UserLesson::class)
+                ->countValidatedLessonsByCursus($user, $cursus);
+        }
+
         return $this->render('lesson/index.html.twig', [
             'cursus' => $cursus,
             'lesson' => $cursus->getLessons(),
-            'user' => $this->getUser(), // 👈 AJOUT
+            'user' => $user,
+            'isCursusValidated' => $totalLessons > 0 && $validatedLessons === $totalLessons,
         ]);
     }
 

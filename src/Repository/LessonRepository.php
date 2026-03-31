@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Lesson;
+use App\Entity\Theme;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,17 @@ class LessonRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Lesson::class);
+    }
+
+    public function countLessonsByCursus(Cursus $cursus): int
+    {
+        return (int) $this->createQueryBuilder('l')
+            ->select('COUNT(l.id)')
+            ->join('l.cursus', 'c')
+            ->where('c = :cursus')
+            ->setParameter('cursus', $cursus)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function countLessonsByTheme(Theme $theme): int

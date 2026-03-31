@@ -11,12 +11,20 @@
 
     <p>{{ lesson.text }}</p>
 
+    {# Formulaire de validation via checkbox #}
     <form method="post" action="{{ path('lesson_validate', {id: lesson.id}) }}">
         <input type="checkbox"
             onchange="this.form.submit()"
             {% if userLesson and userLesson.isValidated %}checked{% endif %}>
         Valider la leçon
     </form>
+
+    {# Afficher la date de validation #}
+    {% if userLesson and userLesson.isValidated and userLesson.validatedAt %}
+        <p>
+            Validé le {{ userLesson.validatedAt|date('d/m/Y à H:i') }} ✅
+        </p>
+    {% endif %}
 
 </div>
 {% endblock %}

@@ -25,7 +25,7 @@ class UserLesson
     #[ORM\Column(type: 'boolean')]
     private bool $isValidated = false;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $validatedAt = null;
 
     // --------------------
