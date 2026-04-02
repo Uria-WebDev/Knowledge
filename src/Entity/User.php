@@ -61,11 +61,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Getters / Setters
     // --------------------
 
+    // ID
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // USERNAME
     public function getUsername(): ?string
     {
         return $this->username;
@@ -77,6 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // EMAIL
     public function getEmail(): ?string
     {
         return $this->email;
@@ -96,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    // ROLE
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -124,6 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // VERIFICATION
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -135,6 +140,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // TOKEN DE VERIFICATION
     public function getEmailVerificationToken(): ?string
     {
         return $this->emailVerificationToken;

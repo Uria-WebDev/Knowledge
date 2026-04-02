@@ -17,6 +17,7 @@ class CursusController extends AbstractController
     {
         $user = $this->getUser();
 
+        // Vérification des leçons validés par l'utilisateur
         $validated = 0;
         $total = $em->getRepository(Lesson::class)->countLessonsByTheme($theme);
 

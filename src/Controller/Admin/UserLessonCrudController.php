@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
+// Crud User_Lesson
 class UserLessonCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

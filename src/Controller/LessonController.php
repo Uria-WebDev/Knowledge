@@ -19,6 +19,7 @@ class LessonController extends AbstractController
     ): Response {
         $user = $this->getUser();
 
+        // Vérification des leçons validés par l'utilisateur
         $validatedLessons = 0;
         $totalLessons = count($cursus->getLessons());
 

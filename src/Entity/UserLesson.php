@@ -32,11 +32,13 @@ class UserLesson
     // GETTERS / SETTERS
     // --------------------
 
+    // ID
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // USER
     public function getUser(): ?User
     {
         return $this->user;
@@ -48,6 +50,7 @@ class UserLesson
         return $this;
     }
 
+    // LESSON
     public function getLesson(): ?Lesson
     {
         return $this->lesson;
@@ -59,11 +62,13 @@ class UserLesson
         return $this;
     }
 
+    // VERIFICATION DE VALIDATION
     public function isValidated(): bool
     {
         return $this->isValidated;
     }
 
+    // DATE DE VALIDATION
     public function setIsValidated(bool $isValidated): self
     {
         $this->isValidated = $isValidated;
